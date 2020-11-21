@@ -1,0 +1,4 @@
+iload_0
+iload_1
+iadd
+ireturn

@@ -1,0 +1,32 @@
+/instruction_handlers <<
+    (iload_0) { var0 }
+    (iload_1) { var1 }
+    (iadd)    { add }
+    (ireturn) {}
+>> def
+
+/instructions [
+    (iload_0)
+    (iload_1)
+    (iadd)
+    (ireturn)
+] def
+
+/ip 0 def
+
+/load_inst {
+ instructions ip get
+ /ip ip 1 add def 
+} def
+
+/next {
+    //instruction_handlers load_inst get exec
+} def
+
+1 2 % parameters
+/var1 exch def % define first variable
+/var0 exch def % define second variable
+next
+next
+next
+next
