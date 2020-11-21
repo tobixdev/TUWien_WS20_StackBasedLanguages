@@ -24,7 +24,10 @@
 } def
 
 /next { % -> the semantics of the next instruction will be applied 
-    //instruction_handlers load_inst get exec
+    //instruction_handlers load_inst 2 copy known not {
+        (Encountered an unknown byte code instruction. Aborting.) print quit
+    } if
+    get exec
 } def
 
 /define_variables_for_parameters { % <input parameter> <parameter_count> ->
