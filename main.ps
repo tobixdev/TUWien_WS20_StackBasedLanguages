@@ -1,6 +1,10 @@
+/variables <<
+>> def
+
+
 /instruction_handlers <<
-    (iload_0) { var0 }
-    (iload_1) { var1 }
+    (iload_0) { //variables 0 get }
+    (iload_1) { //variables 1 get }
     (iadd)    { add }
     (ireturn) {}
 >> def
@@ -14,16 +18,30 @@
 
 /ip 0 def
 
-/load_inst {
+/load_inst { % -> string
  instructions ip get
  /ip ip 1 add def 
 } def
 
-/next {
+/next { % -> the semantics of the next instruction will be applied 
     //instruction_handlers load_inst get exec
 } def
 
+/define_variables_for_parameters { % <input parameter> <parameter_count> ->
+    /i 0 def
+    {
+        //variables exch i exch put
+        /i i 1 add def
+    } repeat
+} def
+
+/execute { % <input parameters> <paramter_count> -> <result>
+    define_variables_for_parameters
+    instructions length { next } repeat
+} def
+
 1 2 % parameters
-/var1 exch def % define first variable
-/var0 exch def % define second variable
-instructions length 1 sub { next } repeat
+2 % parameter count
+execute
+=
+quit
