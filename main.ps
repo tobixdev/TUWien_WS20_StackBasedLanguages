@@ -3,7 +3,10 @@
 
 % If the instruction has parameters (e.g. iload_0) the parameter will be on the top of the stack.
 /instruction_handlers <<
-    (iload)   { cvi //variables exch get }
+    (iload)   { 
+        cvi //variables exch get
+        dup type (integertype) eq not { (Loaded variable is no integer. Aborting.) print quit } if
+    }
     (iadd)    { add }
     (ireturn) {}
 >> def
