@@ -1,10 +1,9 @@
 /variables <<
 >> def
 
-
+% If the instruction has parameters (e.g. iload_0) the parameter will be on the top of the stack.
 /instruction_handlers <<
-    (iload_0) { //variables 0 get }
-    (iload_1) { //variables 1 get }
+    (iload)   { cvi //variables exch get }
     (iadd)    { add }
     (ireturn) {}
 >> def
@@ -23,8 +22,11 @@
  /ip ip 1 add def 
 } def
 
-/next { % -> the semantics of the next instruction will be applied 
-    //instruction_handlers load_inst 2 copy known not {
+/next { % -> the semantics of the next instruction will be applied
+    load_inst (_) search {
+        exch pop
+    } if
+    //instruction_handlers exch 2 copy known not {
         (Encountered an unknown byte code instruction. Aborting.) print quit
     } if
     get exec
