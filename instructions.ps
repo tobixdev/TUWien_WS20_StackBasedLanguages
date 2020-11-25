@@ -1,0 +1,26 @@
+% Please ensure alphabetical order
+
+/check_int { % ->
+    dup type (integertype) eq not { (Type is no integer. Aborting.) print quit } if
+} def
+
+/goto { % branchbyte1, branchbyte2 ->
+    8 bitshift or /ip exch def
+} def
+
+/iadd { % value1, value2 → result
+    check_int exch check_int
+    add
+} def
+
+/if_icmplt { % value1, value2, branchbyte1, branchbyte2 ->
+    4 2 roll lt { goto } if 
+} def
+
+/iload { % var_index → var_value
+    userdict /variables get exch get check_int
+} def
+
+/ireturn { % ->
+    /ip instructions length def
+} def

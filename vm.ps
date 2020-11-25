@@ -1,0 +1,47 @@
+/variables <<
+>> def
+
+% If the instruction has parameters (e.g. iload_0) the parameter will be on the top of the stack.
+/instruction_handlers <<
+    (goto) { goto }
+    (if_icmplt) { if_icmplt }
+    (iload) { iload }
+    (iload_0) { 0 (iload) load_inst_handler exec }
+    (iload_1) { 1 (iload) load_inst_handler exec }
+    (iload_2) { 2 (iload) load_inst_handler exec }
+    (iload_3) { 3 (iload) load_inst_handler exec }
+    (iadd) { iadd }
+    (ireturn) { ireturn }
+>> def
+
+/ip 0 def
+
+/load_inst { % -> string
+    instructions ip get aload pop
+    /ip ip 1 add def 
+} def
+
+/load_inst_handler {
+    userdict /instruction_handlers get exch 2 copy known not {
+        (Encountered an unknown byte code instruction ') print print ('. Aborting.) print quit
+    } if get
+} def
+
+/next { % -> the semantics of the next instruction will be applied
+    load_inst 
+    dup (Executing instruction ) print print (\n) print % logging
+    load_inst_handler exec
+} def
+
+/define_variables_for_parameters { % <input parameter> <parameter_count> ->
+    /i 0 def
+    {
+        //variables exch i exch put
+        /i i 1 add def
+    } repeat
+} def
+
+/execute { % <input parameters> <paramter_count> -> <result>
+    define_variables_for_parameters
+    { ip instructions length lt not { exit } if next } loop % loop until ip is after the last instruction
+} def
