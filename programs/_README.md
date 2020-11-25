@@ -10,5 +10,5 @@
 Additional bytes are added as stack value. Some examples.
 
 * `(add)` no additional bytes
-* `0 (iload)` one additional bytes
-* `1 255 (goto)` two additional bytes, where 255 is the second additional byte and 1 is the first additional byte
+* `(iload) 0` one additional bytes
+* `(goto) 1 255 ` two additional bytes, where 1 is the first additional byte and 255 is the second additional byte
