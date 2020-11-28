@@ -5,7 +5,7 @@
 } def
 
 /goto { % branchbyte1, branchbyte2 ->
-    pstack exch 8 bitshift or /ip exch def
+    exch 8 bitshift or /ip exch def
 } def
 
 /iadd { % value1, value2 → result
@@ -14,7 +14,11 @@
 } def
 
 /if_icmplt { % value1, value2, branchbyte1, branchbyte2 ->
-    4 2 roll lt { goto } if
+    4 2 roll lt { goto } { pop pop } ifelse
+} def
+
+/if_icmpge { % value1, value2, branchbyte1, branchbyte2 ->
+    4 2 roll ge { goto } { pop pop } ifelse
 } def
 
 /iload { % var_index → var_value

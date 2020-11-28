@@ -5,6 +5,7 @@
 /instruction_handlers <<
     (goto) { load_byte load_byte goto }
     (if_icmplt) { load_byte load_byte if_icmplt }
+    (if_icmpge) { load_byte load_byte if_icmpge }
     (iload) { load_byte iload }
     (iload_0) { 0 iload exec }
     (iload_1) { 1 iload exec }
@@ -34,6 +35,7 @@
 } def
 
 /define_variables_for_parameters { % <input parameter> <parameter_count> ->
+    % TODO: This counts in the wrong direction. Should count from <parameter_count> -> 0 instead of 0 -> <parameter_count>
     /i 0 def
     {
         //variables exch i exch put
