@@ -8,9 +8,14 @@
     exch 8 bitshift or /ip exch def
 } def
 
-/iadd { % value1, value2 → result
+/iadd { % value1, value2 -> result
     check_int exch check_int
     add
+} def
+
+/isub { % value1, value2 -> result
+    check_int exch check_int exch
+    sub
 } def
 
 /if_icmplt { % value1, value2, branchbyte1, branchbyte2 ->
