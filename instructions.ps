@@ -23,6 +23,11 @@
     idiv
 } def
 
+/imult { % value1, value2 -> result
+    check_int exch check_int
+    mul
+} def
+
 /if_icmplt { % value1, value2, branchbyte1, branchbyte2 ->
     4 2 roll lt { goto } { pop pop } ifelse
 } def
