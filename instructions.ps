@@ -14,8 +14,13 @@
 } def
 
 /isub { % value1, value2 -> result
-    check_int exch check_int exch
+    check_int exch check_int
     sub
+} def
+
+/idivision { % value1, value2 -> result
+    check_int exch check_int
+    idiv
 } def
 
 /if_icmplt { % value1, value2, branchbyte1, branchbyte2 ->
