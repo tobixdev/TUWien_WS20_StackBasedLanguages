@@ -9,22 +9,22 @@
 } def
 
 /iadd { % value1, value2 -> result
-    check_int exch check_int
+    check_int exch check_int  % no exch at end because not needed due to commutativity
     add
 } def
 
 /isub { % value1, value2 -> result
-    check_int exch check_int
+    check_int exch check_int exch
     sub
 } def
 
 /idivision { % value1, value2 -> result
-    check_int exch check_int
+    check_int exch check_int exch
     idiv
 } def
 
 /imult { % value1, value2 -> result
-    check_int exch check_int
+    check_int exch check_int  % no exch at end because not needed due to commutativity
     mul
 } def
 

@@ -38,10 +38,14 @@
 } def
 
 /define_variables_for_parameters { % <input parameter> <parameter_count> ->
-    % TODO: This counts in the wrong direction. Should count from <parameter_count> -> 0 instead of 0 -> <parameter_count>
+    % variables are numbered from <parameter_count> -1 -> 0
+    dup 1 sub /pc_m1 exch def
     /i 0 def
     {
-        //variables exch i exch put
+        //variables exch
+        pc_m1 i sub
+        exch put
+        
         /i i 1 add def
     } repeat
 } def
