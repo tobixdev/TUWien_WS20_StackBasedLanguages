@@ -23,15 +23,25 @@
     idiv
 } def
 
+/imult { % value1, value2 -> result
+    check_int exch check_int  % no exch at end because not needed due to commutativity
+    mul
+} def
+
+/ishl { % value1, value2 -> result
+    check_int exch check_int exch
+    bitshift
+}
+
+/ishl { % value1, value2 -> result
+    check_int exch check_int exch
+    -1 mul bitshift
+}
+
 /istore { % value, index ->
     variables exch
     3 -1 roll
     put
-} def
-
-/imult { % value1, value2 -> result
-    check_int exch check_int  % no exch at end because not needed due to commutativity
-    mul
 } def
 
 /if_icmplt { % value1, value2, branchbyte1, branchbyte2 ->
