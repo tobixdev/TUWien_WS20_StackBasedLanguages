@@ -30,13 +30,18 @@
 
 /ishl { % value1, value2 -> result
     check_int exch check_int exch
-    bitshift
-}
+    31 and % See https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html#jvms-6.5.ishl
+    {
+        2 mul
+    } repeat
+} def
 
-/ishl { % value1, value2 -> result
+/ishr { % value1, value2 -> result
     check_int exch check_int exch
-    -1 mul bitshift
-}
+    {
+        2 idiv
+    } repeat
+} def
 
 /istore { % value, index ->
     variables exch
