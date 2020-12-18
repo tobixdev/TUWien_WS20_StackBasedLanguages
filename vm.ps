@@ -1,15 +1,17 @@
 /variables <<
 >> def
 
+/compiled [] def
+
 % If the instruction has parameters (e.g. iload_0) the parameter will be on the top of the stack.
 /instruction_handlers <<
-    (goto) { load_byte load_byte goto }
+    (goto) { advance advance goto }
 
-    (if_icmplt) { load_byte load_byte if_icmplt }
-    (if_icmpge) { load_byte load_byte if_icmpge }
-    (ifeq) { load_byte load_byte ifeq }
+    (if_icmplt) { advance advance if_icmplt }
+    (if_icmpge) { advance advance if_icmpge }
+    (ifeq) { advance advance ifeq }
     
-    (iload) { load_byte iload }
+    (iload) { advance iload }
     (iload_0) { 0 iload exec }
     (iload_1) { 1 iload exec }
     (iload_2) { 2 iload exec }
@@ -43,7 +45,7 @@
 
 /ip 0 def
 
-/load_byte { % -> string
+/advance { % -> <value at ip>
     instructions ip get 
     /ip ip 1 add def 
 } def
@@ -55,9 +57,7 @@
 } def
 
 /next { % -> the semantics of the next instruction will be applied
-    load_byte 
-    dup (Executing instruction ) print print (\n) print % logging
-    load_inst_handler exec 
+    advance exec 
 } def
 
 /define_variables_for_parameters { % <input parameter> <parameter_count> ->
@@ -65,7 +65,7 @@
     dup 1 sub /pc_m1 exch def
     /i 0 def
     {
-        //variables exch
+        userdict /variables get exch
         pc_m1 i sub
         exch put
         
@@ -74,6 +74,42 @@
 } def
 
 /execute { % <input parameters> <paramter_count> -> <result>
-    define_variables_for_parameters
-    { ip instructions length lt not { exit } if next } loop % loop until ip is after the last instruction
+    compile compiled cvx exec
+} def
+
+/compile {
+    /compiled_instructions [] def
+
+    % Collect instruction_handlers in compiled_instructions
+    userdict /instructions get length
+    /i 0 def
+    {
+        userdict /instructions get i get dup type (integertype) eq not { load_inst_handler } if [ exch ] compiled_instructions exch concat
+        /compiled_instructions exch def
+        /i i 1 add def
+    } repeat
+
+    /compiled
+    
+    [ /instructions] compiled concat [ compiled_instructions ] concat { def } concat % define instructions
+    { /ip 0 def } concat % define IP
+    { /variables << >> def } concat % define IP
+    { /advance userdict /advance get def } concat % define advance
+    { /next userdict /next get def } concat % define next
+    userdict /define_variables_for_parameters get concat % define define_variables_for_parameters
+
+    { { ip instructions length lt not { exit } if next } loop } concat % loop until ip is after the last instruction
+
+    def
+
+} def
+
+/concat {
+    cvlit
+    /additional exch def
+    /base exch def
+    /new base length additional length add array def % create array
+    new 0 base putinterval
+    new base length additional putinterval
+    new
 } def
