@@ -30,16 +30,18 @@
     /isub { isub }
     /idiv { idivision }
     /imul { imult }
+    /i2l { } % do nothing because all our integers are 64bit
     /ishl { ishl }
     /ishr { ishr }
     % maybe implement airthmetic right shift "manually"?
     
     /ireturn { ireturn }
+    /lreturn { lreturn }
 >> def
 
 /load_inst_handler {
     userdict /instruction_handlers get exch 2 copy known not {
-        (Encountered an unknown byte code instruction ') print print ('. Aborting.) print quit
+        (Encountered an unknown byte code instruction. Aborting.) print quit
     } if get
 } def
 

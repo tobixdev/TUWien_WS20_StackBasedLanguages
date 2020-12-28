@@ -24,6 +24,18 @@
     advance exec 
 } def
 
+/convert_i32_i64 { % <a 64-bit> -> <a 32-bit>
+    check_int
+    dup 4294967295 and exch
+    0 lt { -1 * } if
+} def
+
+/convert_i64_i32 { % <a 32-bit> -> <a 64-bit>
+    check_int
+    dup 4294967295 and exch
+    0 lt { -1 * } if
+} def
+
 % Please ensure alphabetical order
 
 /check_int { % ->
@@ -92,5 +104,13 @@
 } def
 
 /ireturn { % ->
+    check_int return
+} def
+
+/lreturn { % ->
+    check_int return
+} def
+
+/return { % ->
     /ip instructions length def
 } def
