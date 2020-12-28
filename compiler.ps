@@ -30,10 +30,26 @@
     /isub { isub }
     /idiv { idivision }
     /imul { imult }
-    /i2l { } % do nothing because all our integers are 64bit
+    /i2l { i2l }
     /ishl { ishl }
     /ishr { ishr }
     % maybe implement airthmetic right shift "manually"?
+
+    /lload { advance lload }
+    /lload_0 { 0 lload exec }
+    /lload_1 { 1 lload exec }
+    /lload_2 { 2 lload exec }
+    /lload_3 { 3 lload exec }
+
+    /lconst_m1 { -1 }
+    /lconst_0 { 0 }
+    /lconst_1 { 1 }
+    /lconst_2 { 2 }
+    /lconst_3 { 3 }
+    /lconst_4 { 4 }
+    /lconst_5 { 5 }
+
+    /l2i { l2i }
     
     /ireturn { ireturn }
     /lreturn { lreturn }

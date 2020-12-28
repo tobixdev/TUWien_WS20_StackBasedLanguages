@@ -24,16 +24,32 @@
     advance exec 
 } def
 
-/convert_i32_i64 { % <a 64-bit> -> <a 32-bit>
+/c_0000000080000000 2147483648 def
+/c_ffffffff00000000 -4294967296 def
+/c_00000000ffffffff 4294967295 def
+/c_000000007fffffff 2147483647 def
+
+/convert_i32_i64 { % <a in 64-bit> -> <a in 32-bit>
     check_int
-    dup 4294967295 and exch
-    0 lt { -1 * } if
+    c_00000000ffffffff and
+    dup c_0000000080000000 and 0 eq not % is negative
+    { c_ffffffff00000000 or } 
+    { c_000000007fffffff and }
+    ifelse
 } def
 
-/convert_i64_i32 { % <a 32-bit> -> <a 64-bit>
+/convert_i64_i32 { % <a in 32-bit> -> <a in 64-bit>
     check_int
-    dup 4294967295 and exch
-    0 lt { -1 * } if
+    dup 0 lt % is negative
+    { c_0000000080000000 or } 
+    if
+    c_00000000ffffffff and
+} def
+
+/overflow_i32 {
+    check_int
+    c_00000000ffffffff and
+    convert_i32_i64
 } def
 
 % Please ensure alphabetical order
@@ -46,38 +62,42 @@
     exch 8 bitshift or /ip exch def
 } def
 
+/i2l { 
+    % Already in 64 bit representation
+} def
+
 /iadd { % value1, value2 -> result
     check_int exch check_int  % no exch at end because not needed due to commutativity
-    add
+    add overflow_i32
 } def
 
 /isub { % value1, value2 -> result
     check_int exch check_int exch
-    sub
+    sub overflow_i32
 } def
 
 /idivision { % value1, value2 -> result
     check_int exch check_int exch
-    idiv
+    idiv overflow_i32
 } def
 
 /imult { % value1, value2 -> result
     check_int exch check_int  % no exch at end because not needed due to commutativity
-    mul
+    mul overflow_i32
 } def
 
 /ishl { % value1, value2 -> result
     check_int exch check_int exch
     31 and % See https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html#jvms-6.5.ishl
     {
-        2 mul
+        2 imult
     } repeat
 } def
 
 /ishr { % value1, value2 -> result
     check_int exch check_int exch
     {
-        2 idiv
+        2 idivision
     } repeat
 } def
 
@@ -105,6 +125,14 @@
 
 /ireturn { % ->
     check_int return
+} def
+
+/l2i {
+    convert_i64_i32 convert_i32_i64
+} def
+
+/lload { % var_index → var_value
+    userdict /variables get exch get check_int
 } def
 
 /lreturn { % ->
