@@ -1,8 +1,3 @@
-/variables <<
->> def
-
-/compiled [] def
-
 % If the instruction has parameters (e.g. iload_0) the parameter will be on the top of the stack.
 /instruction_handlers <<
     (goto) { advance advance goto }
@@ -74,7 +69,7 @@
         /i i 1 add def
     } repeat
 
-    [ /instructions] compiled concat [ compiled_instructions ] concat { def } concat % define instructions
+    [ /instructions] [ compiled_instructions ] concat { def } concat % define instructions
     userdict /define_variables_for_parameters get concat % call define_variables_for_parameters at the beginning
     { { ip instructions length lt not { exit } if next } loop } concat % loop until ip is after the last instruction
     { = quit } concat % we end the program after execution
