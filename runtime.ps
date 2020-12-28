@@ -1,3 +1,16 @@
+/ip 0 def
+
+/variables << >> def
+
+/advance { % -> <value at ip>
+    instructions ip get 
+    /ip ip 1 add def 
+} def
+
+/next { % -> the semantics of the next instruction will be applied
+    advance exec 
+} def
+
 % Please ensure alphabetical order
 
 /check_int { % ->

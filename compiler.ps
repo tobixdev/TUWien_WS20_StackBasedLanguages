@@ -43,21 +43,10 @@
     (ireturn) { ireturn }
 >> def
 
-/ip 0 def
-
-/advance { % -> <value at ip>
-    instructions ip get 
-    /ip ip 1 add def 
-} def
-
 /load_inst_handler {
     userdict /instruction_handlers get exch 2 copy known not {
         (Encountered an unknown byte code instruction ') print print ('. Aborting.) print quit
     } if get
-} def
-
-/next { % -> the semantics of the next instruction will be applied
-    advance exec 
 } def
 
 /define_variables_for_parameters { % <input parameter> <parameter_count> ->
@@ -73,11 +62,7 @@
     } repeat
 } def
 
-/execute { % <input parameters> <paramter_count> -> <result>
-    compile compiled cvx exec
-} def
-
-/compile {
+/compile { % -> <code array>
     /compiled_instructions [] def
 
     % Collect instruction_handlers in compiled_instructions
@@ -89,22 +74,18 @@
         /i i 1 add def
     } repeat
 
-    /compiled
-    
     [ /instructions] compiled concat [ compiled_instructions ] concat { def } concat % define instructions
-    { /ip 0 def } concat % define IP
-    { /variables << >> def } concat % define IP
-    { /advance userdict /advance get def } concat % define advance
-    { /next userdict /next get def } concat % define next
-    userdict /define_variables_for_parameters get concat % define define_variables_for_parameters
-
+    userdict /define_variables_for_parameters get concat % call define_variables_for_parameters at the beginning
     { { ip instructions length lt not { exit } if next } loop } concat % loop until ip is after the last instruction
-
-    def
+    { = quit } concat % we end the program after execution
 
 } def
 
-/concat {
+/execute { % <program_arguments...> <argument_count> ->
+    compile cvx exec
+} def
+
+/concat { % array1 array2 -> array1++array2
     cvlit
     /additional exch def
     /base exch def

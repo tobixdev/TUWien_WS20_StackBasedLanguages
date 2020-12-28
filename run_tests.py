@@ -16,9 +16,9 @@ def run_testcase(program_name, test_case):
 
     with open(test_main, mode="w") as f:
         parameter_count = input.count(" ") + 1
-        f.write(input + f" {parameter_count} execute = quit")
+        f.write(input + f" {parameter_count} execute")
     
-    actual_output = list(execute_command(["gswin64c.exe", f"./programs/{program_name}.ps", "./instructions.ps", "./vm.ps", test_main]))[-1]
+    actual_output = list(execute_command(["gswin64c.exe", f"./programs/{program_name}.ps", "./runtime.ps", "./compiler.ps", test_main]))[-1]
 
     os.remove(test_main)
 

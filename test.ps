@@ -1,0 +1,2 @@
+2 8 2
+/instructions [{1} {2 istore} {1 iload exec} {advance advance ifeq} 0 17 {2 iload exec} {0 iload exec} {imult} {2 istore} {1 iload exec} {1} {isub} {1 istore} {advance advance goto} 0 2 {2 iload exec} {ireturn}] def dup 1 sub /pc_m1 exch def /i 0 def {userdict /variables get exch pc_m1 i sub exch put /i i 1 add def} repeat {ip instructions length lt not {exit} if next} loop = quit
