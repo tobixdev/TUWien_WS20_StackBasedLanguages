@@ -43,36 +43,27 @@
     } if get
 } def
 
-/define_variables_for_parameters { % <input parameter> <parameter_count> ->
-    % variables are numbered from <parameter_count> -1 -> 0
-    dup 1 sub /pc_m1 exch def
-    /i 0 def
-    {
-        userdict /variables get exch
-        pc_m1 i sub
-        exch put
-        
-        /i i 1 add def
-    } repeat
-} def
-
 /compile { % -> <code array>
-    /compiled_instructions [] def
+    { /instructions [ } cvlit
 
-    % Collect instruction_handlers in compiled_instructions
+    % Collect instruction_handlers in array on stack
     userdict /instructions get length
     /i 0 def
     {
-        userdict /instructions get i get dup type (integertype) eq not { load_inst_handler } if [ exch ] compiled_instructions exch concat
-        /compiled_instructions exch def
+        userdict /instructions get i get % load instruction or additional byte
+        dup type (integertype) eq not { load_inst_handler } if % load handler if instruction
+        wrap_in_array concat
         /i i 1 add def
     } repeat
 
-    [ /instructions] [ compiled_instructions ] concat { def } concat % define instructions
-    userdict /define_variables_for_parameters get concat % call define_variables_for_parameters at the beginning
-    { { ip instructions length lt not { exit } if next } loop } concat % loop until ip is after the last instruction
-    { = quit } concat % we end the program after execution
+    { ] def } cvlit concat % define instructions
+    { define_variables_for_parameters } cvlit concat
+    { { ip instructions length lt not { exit } if next } loop } cvlit concat % loop until ip is after the last instruction
+    { = quit } cvlit concat % we end the program after execution
+} def
 
+/wrap_in_array { % a -> [ a ]
+    [ exch ]
 } def
 
 /execute { % <program_arguments...> <argument_count> ->
@@ -80,7 +71,6 @@
 } def
 
 /concat { % array1 array2 -> array1++array2
-    cvlit
     /additional exch def
     /base exch def
     /new base length additional length add array def % create array
