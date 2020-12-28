@@ -1,41 +1,40 @@
 % If the instruction has parameters (e.g. iload_0) the parameter will be on the top of the stack.
 /instruction_handlers <<
-    (goto) { advance advance goto }
+    /goto { advance advance goto }
 
-    (if_icmplt) { advance advance if_icmplt }
-    (if_icmpge) { advance advance if_icmpge }
-    (ifeq) { advance advance ifeq }
-    
-    (iload) { advance iload }
-    (iload_0) { 0 iload exec }
-    (iload_1) { 1 iload exec }
-    (iload_2) { 2 iload exec }
-    (iload_3) { 3 iload exec }
-    
-    (iconst_m1) { -1 }
-    (iconst_0) { 0 }
-    (iconst_1) { 1 }
-    (iconst_2) { 2 }
-    (iconst_3) { 3 }
-    (iconst_4) { 4 }
-    (iconst_5) { 5 }
-    
-    (istore) { istore }
-    (istore_0) { 0 istore }
-    (istore_1) { 1 istore }
-    (istore_2) { 2 istore }
-    (istore_3) { 3 istore }
-    
-    (iadd) { iadd }
-    (isub) { isub }
-    (idiv) { idivision }
-    (imul) { imult }
+    /if_icmplt { advance advance if_icmplt }
+    /if_icmpge { advance advance if_icmpge }
+    /ifeq { advance advance ifeq }
 
-    (ishl) { ishl }
-    (ishr) { ishr }
+    /iload { advance iload }
+    /iload_0 { 0 iload exec }
+    /iload_1 { 1 iload exec }
+    /iload_2 { 2 iload exec }
+    /iload_3 { 3 iload exec }
+
+    /iconst_m1 { -1 }
+    /iconst_0 { 0 }
+    /iconst_1 { 1 }
+    /iconst_2 { 2 }
+    /iconst_3 { 3 }
+    /iconst_4 { 4 }
+    /iconst_5 { 5 }
+
+    /istore { istore }
+    /istore_0 { 0 istore }
+    /istore_1 { 1 istore }
+    /istore_2 { 2 istore }
+    /istore_3 { 3 istore }
+
+    /iadd { iadd }
+    /isub { isub }
+    /idiv { idivision }
+    /imul { imult }
+    /ishl { ishl }
+    /ishr { ishr }
     % maybe implement airthmetic right shift "manually"?
     
-    (ireturn) { ireturn }
+    /ireturn { ireturn }
 >> def
 
 /load_inst_handler {
