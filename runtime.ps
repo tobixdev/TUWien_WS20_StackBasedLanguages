@@ -52,11 +52,11 @@
     convert_i32_i64
 } def
 
-% Please ensure alphabetical order
-
 /check_int { % ->
     dup type (integertype) eq not { (Type is no integer. Aborting.) print quit } if
 } def
+
+% Please ensure alphabetical order
 
 /goto { % branchbyte1, branchbyte2 ->
     exch 8 bitshift or /ip exch def
@@ -67,23 +67,19 @@
 } def
 
 /iadd { % value1, value2 -> result
-    check_int exch check_int  % no exch at end because not needed due to commutativity
-    add overflow_i32
+    ladd overflow_i32
 } def
 
 /isub { % value1, value2 -> result
-    check_int exch check_int exch
-    sub overflow_i32
+    lsub overflow_i32
 } def
 
 /idivision { % value1, value2 -> result
-    check_int exch check_int exch
-    idiv overflow_i32
+    ldivision overflow_i32
 } def
 
 /imult { % value1, value2 -> result
-    check_int exch check_int  % no exch at end because not needed due to commutativity
-    mul overflow_i32
+    lmult overflow_i32
 } def
 
 /ishl { % value1, value2 -> result
@@ -101,7 +97,7 @@
     } repeat
 } def
 
-/istore { % value, index ->
+/store { % value, index ->
     variables exch
     3 -1 roll
     put
@@ -125,6 +121,45 @@
 
 /ireturn { % ->
     check_int return
+} def
+
+/i2l { 
+    % Already in 64 bit representation
+} def
+
+/ladd { % value1, value2 -> result
+    check_int exch check_int  % no exch at end because not needed due to commutativity
+    add
+} def
+
+/lsub { % value1, value2 -> result
+    check_int exch check_int exch
+    sub
+} def
+
+/ldivision { % value1, value2 -> result
+    check_int exch check_int exch
+    idiv
+} def
+
+/lmult { % value1, value2 -> result
+    check_int exch check_int  % no exch at end because not needed due to commutativity
+    mul
+} def
+
+/lshl { % value1, value2 -> result
+    check_int exch check_int exch
+    31 and % See https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html#jvms-6.5.ishl
+    {
+        2 lmult
+    } repeat
+} def
+
+/lshr { % value1, value2 -> result
+    check_int exch check_int exch
+    {
+        2 ldivision
+    } repeat
 } def
 
 /l2i {
