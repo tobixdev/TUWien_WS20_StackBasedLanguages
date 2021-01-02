@@ -1,0 +1,65 @@
+% We do not support a constant pool -> We replace the load constants operations with the constant itself
+/instructions [
+/fload_0
+/fconst_0
+/fcmpl
+/ifne 0 8
+/fconst_0
+/freturn
+/fload_0
+/fconst_2
+/fdiv
+/fstore_1
+3.4028234e38
+/nop % nop is needed because ldc is 2bytes
+/fstore_2
+/fload_1
+/fstore_3
+/fload_2
+0.01
+/nop % nop is needed because ldc is 2bytes
+/fcmpl
+/ifge 0 31
+/fload_2
+-0.01
+/nop % nop is needed because ldc is 2bytes
+/fcmpg
+/ifgt 0 54
+/fload_0
+/fload_1
+/fdiv
+/fstore 4
+/fload_1
+/fload 4
+/fadd
+/fconst_2
+/fdiv
+/fstore_1
+/fload_1
+/fload_3
+/fsub
+/fload_3
+/fdiv
+/fstore_2
+/fload_1
+/fstore_3
+/goto 0 17
+/fload_1
+/freturn
+] def
+
+% public static float sqrt(float n) {
+%   float guess = n / 2;
+%
+%   float pctDiff = Float.MAX_VALUE;
+%   float lastGuess = guess;
+%
+%   while (pctDiff >= 0.01f || pctDiff <= -0.01f)
+%   {                        
+%       float r = n / guess;
+%       guess = (guess + r) / 2;
+%       pctDiff = ((guess-lastGuess)/lastGuess);
+%       lastGuess = guess;
+%   }
+%   return guess;
+% }

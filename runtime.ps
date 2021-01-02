@@ -56,7 +56,47 @@
     dup type (integertype) eq not { (Type is no integer. Aborting.) print quit } if
 } def
 
+/check_float { % ->
+    dup type (realtype) eq not { (Type is no real. Aborting.) print quit } if
+} def
+
 % Please ensure alphabetical order
+
+/fload { % var_index → var_value
+    userdict /variables get exch get check_float
+} def
+
+/fcmpl { % value1, value2 -> result
+    2 copy gt { pop pop 1 } { eq { 0 } { -1 } ifelse } ifelse
+} def
+
+/fcmpg { % value1, value2 -> result
+    fcmpl % We currently do not consider NaN
+} def
+
+/fadd { % value1, value2 -> result
+    check_float exch check_float  % no exch at end because not needed due to commutativity
+    add
+} def
+
+/fsub { % value1, value2 -> result
+    check_float exch check_float exch
+    sub
+} def
+
+/fdivision { % value1, value2 -> result
+    check_float exch check_float exch
+    div
+} def
+
+/fmult { % value1, value2 -> result
+    check_float exch check_float  % no exch at end because not needed due to commutativity
+    mul
+} def
+
+/freturn { % ->
+    check_float return
+} def
 
 /goto { % branchbyte1, branchbyte2 ->
     exch 8 bitshift or /ip exch def
@@ -98,7 +138,7 @@
 } def
 
 /store { % value, index ->
-    variables exch
+    userdict /variables get exch
     3 -1 roll
     put
 } def
@@ -113,6 +153,18 @@
 
 /ifeq { % value, branchbyte1, branchbyte2 ->
     3 2 roll 0 eq { goto } { pop pop } ifelse
+} def
+
+/ifne { % value, branchbyte1, branchbyte2 ->
+    3 2 roll 0 eq not { goto } { pop pop } ifelse
+} def
+
+/ifgt { % value, branchbyte1, branchbyte2 ->
+    3 2 roll 0 gt { goto } { pop pop } ifelse
+} def
+
+/ifge { % value, branchbyte1, branchbyte2 ->
+    3 2 roll 0 ge { goto } { pop pop } ifelse
 } def
 
 /iload { % var_index → var_value

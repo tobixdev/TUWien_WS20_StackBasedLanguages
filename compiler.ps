@@ -5,12 +5,44 @@
     /if_icmplt { advance advance if_icmplt }
     /if_icmpge { advance advance if_icmpge }
     /ifeq { advance advance ifeq }
+    /ifne { advance advance ifne }
+    /ifge { advance advance ifge }
+    /ifgt { advance advance ifgt }
+
+    /fstore { advance store }
+    /fstore_0 { 0 store }
+    /fstore_1 { 1 store }
+    /fstore_2 { 2 store }
+    /fstore_3 { 3 store }
+
+    /fload { advance fload }
+    /fload_0 { 0 fload }
+    /fload_1 { 1 fload }
+    /fload_2 { 2 fload }
+    /fload_3 { 3 fload }
+
+    /fconst_0 { 0.0 }
+    /fconst_1 { 1.0 }
+    /fconst_2 { 2.0 }
+
+    /fadd { fadd }
+    /fsub { fsub }
+    /fdiv { fdivision }
+    /fmul { fmult }
+    /fcmpl { fcmpl }
+    /fcmpg { fcmpg }
+
+    /istore { advance store }
+    /istore_0 { 0 store }
+    /istore_1 { 1 store }
+    /istore_2 { 2 store }
+    /istore_3 { 3 store }
 
     /iload { advance iload }
-    /iload_0 { 0 iload exec }
-    /iload_1 { 1 iload exec }
-    /iload_2 { 2 iload exec }
-    /iload_3 { 3 iload exec }
+    /iload_0 { 0 iload }
+    /iload_1 { 1 iload }
+    /iload_2 { 2 iload }
+    /iload_3 { 3 iload }
 
     /iconst_m1 { -1 }
     /iconst_0 { 0 }
@@ -19,12 +51,6 @@
     /iconst_3 { 3 }
     /iconst_4 { 4 }
     /iconst_5 { 5 }
-
-    /istore { store }
-    /istore_0 { 0 store }
-    /istore_1 { 1 store }
-    /istore_2 { 2 store }
-    /istore_3 { 3 store }
 
     /iadd { iadd }
     /isub { isub }
@@ -36,10 +62,10 @@
     % maybe implement airthmetic right shift "manually"?
 
     /lload { advance lload }
-    /lload_0 { 0 lload exec }
-    /lload_1 { 1 lload exec }
-    /lload_2 { 2 lload exec }
-    /lload_3 { 3 lload exec }
+    /lload_0 { 0 lload }
+    /lload_1 { 1 lload }
+    /lload_2 { 2 lload }
+    /lload_3 { 3 lload }
 
     /lconst_m1 { -1 }
     /lconst_0 { 0 }
@@ -49,7 +75,7 @@
     /lconst_4 { 4 }
     /lconst_5 { 5 }
 
-    /lstore { store }
+    /lstore { advance store }
     /lstore_0 { 0 store }
     /lstore_1 { 1 store }
     /lstore_2 { 2 store }
@@ -65,11 +91,14 @@
     
     /ireturn { ireturn }
     /lreturn { lreturn }
+    /freturn { freturn }
+
+    /nop {}
 >> def
 
 /load_inst_handler {
     userdict /instruction_handlers get exch 2 copy known not {
-        (Encountered an unknown byte code instruction. Aborting.) print quit
+        (Encountered an unknown byte code instruction. Aborting.\n) print pstack quit
     } if get
 } def
 
@@ -81,7 +110,7 @@
     /i 0 def
     {
         userdict /instructions get i get % load instruction or additional byte
-        dup type (integertype) eq not { load_inst_handler } if % load handler if instruction
+        dup type (nametype) eq { load_inst_handler } if % load handler if instruction
         wrap_in_array concat
         /i i 1 add def
     } repeat
