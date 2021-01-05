@@ -5,6 +5,7 @@
     /dup { dup }
 
     /newarray { advance newarray }
+    /arraylength { arraylength  }
     /astore_0 { 0 astore }
     /astore_1 { 1 astore }
     /astore_2 { 2 astore }
@@ -17,6 +18,7 @@
     /aload_3 { 3 aload }
     
     /iastore { iastore }
+    /iaload { iaload }
 
     /areturn { areturn  }
 
@@ -69,6 +71,8 @@
     /iconst_3 { 3 }
     /iconst_4 { 4 }
     /iconst_5 { 5 }
+    
+    /iinc { advance advance iinc }
 
     /iadd { iadd }
     /isub { isub }

@@ -66,6 +66,10 @@
 
 % Please ensure alphabetical order
 
+/arraylength { % array -> length
+  check_array length
+} def
+
 /astore { % value, index ->
     exch check_array exch store
 } def
@@ -148,12 +152,24 @@
     ladd overflow_i32
 } def
 
+/iaload { % array, index -> value
+    check_int get check_int
+} def
+
 /iastore { % array, index, value ->
     check_int put
 } def
 
 /isub { % value1, value2 -> result
     lsub overflow_i32
+} def
+
+/iinc { % index, value ->
+    /index exch def
+    /value exch def
+    index iload
+    value iadd
+    index store
 } def
 
 /idivision { % value1, value2 -> result

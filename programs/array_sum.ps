@@ -1,0 +1,29 @@
+/instructions [
+    /iconst_0
+    /istore_2
+    /iconst_0
+    /istore_1
+    /iload_1
+    /aload_0
+    /arraylength
+    /if_icmpge 0 22
+    /iload_2
+    /aload_0
+    /iload_1
+    /iaload
+    /iadd
+    /istore_2
+    /iinc 1 1
+    /goto 0 4
+    /iload_2
+    /ireturn
+] def
+
+% public static int array_sum(int[] arr) {
+%     int i;
+%     int sum = 0;
+%     for (i = 0; i < arr.length; i++) {
+%         sum += arr[i];
+%     }
+%     return sum;
+% }
