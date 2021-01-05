@@ -7,7 +7,7 @@
 
 * `gswin64c.exe .\programs\pow.ps .\compiler.ps .\main_compile.ps`
 * Copy compiled code (except first '[' and last ']')
-* `gswin64c.exe .\runtime.ps output.ps`
+* `gswin64c.exe .\runtime.ps .\output.ps`
 
 # Bytecode instructions
 

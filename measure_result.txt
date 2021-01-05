@@ -1,0 +1,11 @@
+Executing PostScript file for n = 1000 [took 0.304067]
+Executing PostScript file for n = 100000 [took 4.7832106]
+Executing PostScript file for n = 500000 [took 22.0886444]
+Executing PostScript file for n = 1000000 [took 26.9994078]
+Executing PostScript file for n = 10000000 [took 286.1865435]
+
+Executing Java file for n = 1000 [took 0.1511311]
+Executing Java file for n = 100000 [took 0.2192791]
+Executing Java file for n = 500000 [took 0.2368978]
+Executing Java file for n = 1000000 [took 0.239495]
+Executing Java file for n = 10000000 [took 0.6722335]
