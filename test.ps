@@ -1,3 +1,0 @@
-15.0 1
-/instructions [ {0 fload} {0.0} {fcmpl} {advance advance ifne} 0 8 {0.0} {freturn} {0 fload} {2.0} {fdivision} {1 store} 3.40282344e+38 {} {2 store} {1 fload} {3 store} {2 fload} 0.01 {} {fcmpl} {advance 
-advance ifge} 0 31 {2 fload} -0.01 {} {fcmpg} {advance advance ifgt} 0 54 {0 fload} {1 fload} {fdivision} {advance store} 4 {1 fload} {advance fload} 4 {fadd} {2.0} {fdivision} {1 store} {1 fload} {3 fload} {fsub} {3 fload} {fdivision} {2 store} {1 fload} {3 store} {advance advance goto} 0 17 {1 fload} {freturn} ] def define_variables_for_parameters {ip instructions length lt not {exit} if next} loop = quit

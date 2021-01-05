@@ -27,18 +27,16 @@
 /c_0000000080000000 2147483648 def
 /c_ffffffff00000000 -4294967296 def
 /c_00000000ffffffff 4294967295 def
-/c_000000007fffffff 2147483647 def
 
-/convert_i32_i64 { % <a in 64-bit> -> <a in 32-bit>
+/convert_i32_i64 { % <a in 32-bit> -> <a in 64-bit>
     check_int
     c_00000000ffffffff and
     dup c_0000000080000000 and 0 eq not % is negative
-    { c_ffffffff00000000 or } 
-    { c_000000007fffffff and }
-    ifelse
+    { c_ffffffff00000000 or }
+    if
 } def
 
-/convert_i64_i32 { % <a in 32-bit> -> <a in 64-bit>
+/convert_i64_i32 { % <a in 64-bit> -> <a in 32-bit>
     check_int
     dup 0 lt % is negative
     { c_0000000080000000 or } 
