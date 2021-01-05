@@ -1,0 +1,97 @@
+% We do not support a constant pool -> We replace the load constants operations with the constant itself
+/instructions [
+    /iconst_0
+    /istore_1
+    /iconst_0
+    /istore_2
+    /iload_0
+    /iconst_1
+    /iadd
+    /newarray 10 % T_INT
+    /astore_3
+    /iconst_2
+    /istore_1
+    /iload_1
+    /iload_0
+    /if_icmpgt 0 27
+    /aload_3
+    /iload_1
+    /iload_1
+    /iastore
+    /iinc 1 1
+    /goto 0 12
+    /iconst_0
+    /istore 4
+    /iload_0
+    /iconst_2
+    /idiv
+    /i2f
+    /fstore 5
+    3.4028234e38
+    /nop % nop is needed because ldc is 2 bytes
+    /fstore 6
+    /fload 5
+    /fstore 7
+    /fload 6
+    0.01
+    /nop % nop is needed because ldc is 2 bytes
+    /fcmpl
+    /ifge 0 60
+    /fload 6
+    -0.01
+    /nop % nop is needed because ldc is 2 bytes
+    /fcmpg
+    /ifgt 0 93
+    /iload_0
+    /i2f
+    /fload 5
+    /fdiv
+    /fstore 8
+    /fload 5
+    /fload 8
+    /fadd
+    /fconst_2
+    /fdiv
+    /fstore 5
+    /fload 5
+    /fload 7
+    /fsub
+    /fload 7
+    /fdiv
+    /fstore 6
+    /fload 5
+    /fstore 7
+    /goto 0 44
+    /fload 5
+    /f2i
+    /istore 4
+    /iconst_2
+    /istore_1
+    /iload_1
+    /iload 4
+    /if_icmpgt 0 138
+    /aload_3
+    /iload_1
+    /iaload
+    /ifeq 0 132
+    /iload_1
+    /iload_1
+    /imul
+    /istore_2
+    /iload_2
+    /iload_0
+    /if_icmpgt 0 132
+    /aload_3
+    /iload_2
+    /iconst_0
+    /iastore
+    /iload_2
+    /iload_1
+    /iadd
+    /istore_2
+    /goto 0 116
+    /iinc 1 1
+    /goto 0 100
+    /aload_3
+    /areturn
+] def

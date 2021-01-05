@@ -9,7 +9,6 @@
 * Copy compiled code (except first '[' and last ']')
 * `gswin64c.exe .\runtime.ps output.ps`
 
-
 # Bytecode instructions
 
 There is a list of JVM bytecode instructions on [Wikipedia](https://en.wikipedia.org/wiki/Java_bytecode_instruction_listings).

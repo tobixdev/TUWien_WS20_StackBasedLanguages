@@ -199,12 +199,24 @@
     put
 } def
 
+/i2f { % value -> result
+    cvr
+} def
+
+/f2i { % value -> result
+    cvi
+} def
+
 /if_icmplt { % value1, value2, branchbyte1, branchbyte2 ->
     4 2 roll lt { goto } { pop pop } ifelse
 } def
 
 /if_icmpge { % value1, value2, branchbyte1, branchbyte2 ->
     4 2 roll ge { goto } { pop pop } ifelse
+} def
+
+/if_icmpgt { % value1, value2, branchbyte1, branchbyte2 ->
+    4 2 roll gt { goto } { pop pop } ifelse
 } def
 
 /ifeq { % value, branchbyte1, branchbyte2 ->
