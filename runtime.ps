@@ -94,12 +94,13 @@
 
     /zero_element exch def
     /count exch def
-    [
-        count
-        {
-            zero_element
-        } repeat
-    ]
+    count array /new_array exch def
+
+    0 1 count 1 sub
+    {
+        new_array exch zero_element put
+    } for
+    new_array
 } def
 
 /fload { % var_index → var_value
