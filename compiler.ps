@@ -2,6 +2,24 @@
 /instruction_handlers <<
     /goto { advance advance goto }
 
+    /dup { dup }
+
+    /newarray { advance newarray }
+    /astore_0 { 0 astore }
+    /astore_1 { 1 astore }
+    /astore_2 { 2 astore }
+    /astore_3 { 3 astore }
+    
+    /aload { advance aload }
+    /aload_0 { 0 aload }
+    /aload_1 { 1 aload }
+    /aload_2 { 2 aload }
+    /aload_3 { 3 aload }
+    
+    /iastore { iastore }
+
+    /areturn { areturn  }
+
     /if_icmplt { advance advance if_icmplt }
     /if_icmpge { advance advance if_icmpge }
     /ifeq { advance advance ifeq }
@@ -118,7 +136,7 @@
     { ] def } cvlit concat % define instructions
     { define_variables_for_parameters } cvlit concat
     { { ip instructions length lt not { exit } if next } loop } cvlit concat % loop until ip is after the last instruction
-    { = quit } cvlit concat % we end the program after execution
+    { pstack quit } cvlit concat % we end the program after execution
 } def
 
 /wrap_in_array { % a -> [ a ]

@@ -60,7 +60,45 @@
     dup type (realtype) eq not { (Type is no real. Aborting.) print quit } if
 } def
 
+/check_array { % ->
+    dup type (arraytype) eq not { (Type is no array. Aborting.) print quit } if
+} def
+
 % Please ensure alphabetical order
+
+/astore { % value, index ->
+    exch check_array exch store
+} def
+
+/aload { % var_index → var_value
+    userdict /variables get exch get check_array
+} def
+
+/areturn { % ->
+    check_array return
+} def
+
+/supported_types_zero_element <<
+    10 0
+    11 0
+    6 0.0
+>> def
+
+/newarray { % count, type -> array
+    % /name_zero exch 10 eq { 0 } { (unknown type) print quit } ifelse def
+    //supported_types_zero_element exch 2 copy known not {
+        (Unknown array type. Aborting.\n) print pstack quit
+    } if get
+
+    /zero_element exch def
+    /count exch def
+    [
+        count
+        {
+            zero_element
+        } repeat
+    ]
+} def
 
 /fload { % var_index → var_value
     userdict /variables get exch get check_float
@@ -108,6 +146,10 @@
 
 /iadd { % value1, value2 -> result
     ladd overflow_i32
+} def
+
+/iastore { % array, index, value ->
+    check_int put
 } def
 
 /isub { % value1, value2 -> result
